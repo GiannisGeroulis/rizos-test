@@ -45,6 +45,7 @@ import {
 
 
 export function Dashboard() {
+    const testImage = require("../assets/google-png.png")
     const [tipos,setTipos]=useState("");
     const [lat,setLat]=useState("");
     const [lng,setLng]=useState("");
@@ -67,6 +68,15 @@ export function Dashboard() {
           }
           
         })
+      }
+      async function handleFIle(){
+        const { data, error } = await supabase
+        .storage
+        .from('avatars')
+        .upload('images/rewrew.png', testImage, {
+            cacheControl: '3600',
+            upsert: false
+  })
       }
       async function handleSubmit(e){
         e.preventDefault()
@@ -91,6 +101,9 @@ export function Dashboard() {
             console.log("oxi fani oxi")
             return
         }
+        handleFIle()
+        console.log(testImage)
+        console.log("nai")
         const { data, error } = await supabase
         .from('akinito')
         .insert([
@@ -121,7 +134,9 @@ export function Dashboard() {
 
 
     return (
+
         <>
+        
         <div className="w-full h-full fixed top-0 left-0  bg-gradient-to-tr from-slate-800 to-emerald-800"> 
             <NavBar></NavBar>
             

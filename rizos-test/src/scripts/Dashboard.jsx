@@ -23,6 +23,23 @@ import { Map } from '../scripts/Map';
 import { DashboardMap } from "./DashboardMap"
 import { useState } from "react"
 import supabase from "./Login"
+import {
+    setKey,
+    setDefaults,
+    setLanguage,
+    setRegion,
+    fromAddress,
+    fromLatLng,
+    fromPlaceId,
+    setLocationType,
+    geocode,
+    RequestType,
+  } from "react-geocode";
+  setDefaults({
+    key: "AIzaSyCc0hRFnqdTN3KNB6vwc9_qWttkhjsGAmE", // Your API key here.
+    language: "en", // Default language for responses.
+    region: "es", // Default region for responses.
+  });  
 
 
 
@@ -51,15 +68,8 @@ export function Dashboard() {
           
         })
       }
-      async function handleFIle(){
-        const { data, error } = await supabase
-        .storage
-        .from('avatars')
-        .upload('images/rewrew.png', testImage, {
-            cacheControl: '3600',
-            upsert: false
-  })
-      }
+      
+      
       async function handleSubmit(e){
         e.preventDefault()
         if(!tipos || !xwros || !eidos || !orofos || !katastasi || !energiaki || !zoni || !formData.emvadon || !formData.timi || !formData.etosK || !formData.etosAn|| !formData.ipnodomatia|| !formData.mpania|| !formData.diefthinsi){
@@ -83,7 +93,7 @@ export function Dashboard() {
             console.log("oxi fani oxi")
             return
         }
-        handleFIle()
+        
         console.log(testImage)
         console.log("nai")
         const { data, error } = await supabase

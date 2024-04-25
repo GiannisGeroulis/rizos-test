@@ -8,7 +8,9 @@ import { useState } from 'react';
 
 
 
+
 function App() {
+  
   const [token, setToken] = useState(false)
 
   return (
@@ -25,6 +27,7 @@ function App() {
           <div>
             <NavBar ></NavBar>
             <Map></Map>
+            
           </div>
         }/>
         <Route path='/dashboard' element={

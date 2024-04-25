@@ -23,24 +23,6 @@ import { Map } from '../scripts/Map';
 import { DashboardMap } from "./DashboardMap"
 import { useState } from "react"
 import supabase from "./Login"
-import {
-    setKey,
-    setDefaults,
-    setLanguage,
-    setRegion,
-    fromAddress,
-    fromLatLng,
-    fromPlaceId,
-    setLocationType,
-    geocode,
-    RequestType,
-  } from "react-geocode";
-
-  setDefaults({
-    key: "AIzaSyCc0hRFnqdTN3KNB6vwc9_qWttkhjsGAmE", // Your API key here.
-    language: "gr", // Default language for responses.
-    region: "gr", // Default region for responses.
-  });
 
 
 
@@ -59,7 +41,7 @@ export function Dashboard() {
     const [formData,setFormData] = React.useState({
         emvadon:0,timi:0,etosK:0,etosAn:0,ipnodomatia:0,mpania:0,diefthinsi:''
       })
-      //console.log(formData)
+      console.log(formData)
       function handleChange(event)
       {
         setFormData((prevFormData)=>{

@@ -33,31 +33,31 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndscHNjeWpjcHpwY2VqbHdhdHZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIwOTEwODgsImV4cCI6MjAyNzY2NzA4OH0.RBWV8mB_tyw8Zx0DVkJTCbi4NOQOZRF78aKbGq77xfU"
 );
 export default supabase
-  
+
 
 
 
 
 
 export function Login() {
+   const [session,setSession]=React.useState(null)
   const navigate = useNavigate();
   const { data } = supabase.auth.onAuthStateChange((event, session) => {
     //console.log(event, session)
   
     if (event === 'SIGNED_IN') {
       navigate("/home")
-      //console.log(supabase.auth.getUser().email)
-      // handle initial session
+     
+      setSession(session);
+      
     } 
-    else if(event === 'INITIAL_SESSION')
-    {
-      navigate("/home")
-    }
+    
     else 
     {
-      navigate("/")
+     
     }})
-    
+
+
 
 
 const [toggle,setToggle]=React.useState(true);

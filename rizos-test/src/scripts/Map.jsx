@@ -4,24 +4,28 @@ import { Button } from "@/components/ui/button";
 import { CarouselDemo } from "./Carousel";
 import { Icon,divIcon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import supabase from "./Login";
+import supabase, { Login } from "./Login";
 import { useState ,useEffect } from "react";
 import { custom } from "zod";
 import { useNavigate } from "react-router-dom";
 import { data } from "autoprefixer";    
+import { Aggelia } from "./Aggelia";
 
 const customIcon = new Icon({
     iconUrl: require("../assets/marker-icon.png"),
-    iconSize: [40,40]
+    iconSize: [40,40],
+    
 
   })
 
 
+
 export function Map () {
     
-    const navigate= useNavigate();
-
     
+   
+   
+    const [toggleAggelia,settoggleAggelia]=useState(false)
     const createClusterCustomIcon = function (cluster) {
         return L.divIcon({
           html: `<div style="background-color:#34d399;height:2.4rem;width:2.4rem;border-radius:50%;transform:translate(-25%,-25%);display:flex;justify-content:center;align-items:center;font-weight:200;font-size:2.0rem;color:black;font-family:Monospace;">${cluster.getChildCount()}</div>`,
@@ -74,10 +78,26 @@ export function Map () {
             <MarkerClusterGroup showCoverageOnHover={false} chunkedLoading={true} removeOutsideVisibleBounds={true} animate={true} iconCreateFunction={createClusterCustomIcon}>
            {akinita && (
                 akinita.map(akinito => (
-                    <Marker position={[akinito.lat, akinito.lng]} icon={customIcon}>
-                            <Popup>
-                                <CarouselDemo>
-                                    
+                    
+                    <Marker 
+                    
+                    position={[akinito.lat, akinito.lng]} 
+                    icon={customIcon}
+                    eventHandlers={{
+                        mouseover: (event) => event.target.openPopup(),
+                        mouseout: (event) => event.target.closePopup(),
+                        click: (event) => {
+                            
+                            settoggleAggelia(!toggleAggelia)
+                            
+                        }
+                    }
+                }>
+                   
+                            <Popup autoPan={false}>
+                               
+                                <CarouselDemo >
+                                
                                 </CarouselDemo>
                             </Popup>
                     </Marker>
@@ -88,6 +108,9 @@ export function Map () {
            )}
           </MarkerClusterGroup>
         </MapContainer>
+        {console.log('map'+toggleAggelia)}
+        {toggleAggelia && (<Aggelia toggle={toggleAggelia}  ></Aggelia>)}
+        
         
         
         

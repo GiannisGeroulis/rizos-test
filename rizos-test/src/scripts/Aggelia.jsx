@@ -28,6 +28,7 @@ import { ThemeSupa } from "@supabase/auth-ui-shared"
 
 
 
+
 const supabase = createClient(
   "https://wlpscyjcpzpcejlwatvp.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndscHNjeWpjcHpwY2VqbHdhdHZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIwOTEwODgsImV4cCI6MjAyNzY2NzA4OH0.RBWV8mB_tyw8Zx0DVkJTCbi4NOQOZRF78aKbGq77xfU"
@@ -39,23 +40,25 @@ export default supabase
 
 
 
-export function Aggelia(rToggle){
+export function Aggelia({setToggleAggelia}){
+
+  
+  
    const [session,setSession]=React.useState(null)
   const navigate = useNavigate();
- const [toggle,setToggle] = React.useState(rToggle.toggle)
+  
+ const handleClick = () => {
+  setToggleAggelia(false)
+ }
 
- 
-function handleExit(){
-  setToggle(!toggle)
-}
 
 
   return (
   
- toggle && (<div className="z-[5000] bg-black   bg-opacity-40 fixed left-0 top-0  h-screen w-screen ">
+  <div className="z-[5000] bg-black   bg-opacity-40 fixed left-0 top-0  h-screen w-screen ">
         <div className="z-[5000]  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
         <Card className="w-[350px]   ">
-        <Button className="fixed right-0 bg-white text-black hover:bg-white" onClick={handleExit}><MdOutlineCancel className="h-5 w-5"/></Button>
+        <Button className="fixed right-0 bg-white text-black hover:bg-white" onClick={handleClick} ><MdOutlineCancel className="h-5 w-5"/></Button>
         
         <CardHeader className="">
             <CardTitle className="font-bold">Σύνδεση</CardTitle>
@@ -70,7 +73,7 @@ function handleExit(){
       
         </Card>
         </div>
-    </div>))
+    </div>)
     
   
 }

@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { data } from "autoprefixer";    
 import { Aggelia } from "./Aggelia";
 
+
 const customIcon = new Icon({
     iconUrl: require("../assets/marker-icon.png"),
     iconSize: [40,40],
@@ -26,6 +27,10 @@ export function Map () {
    
    
     const [toggleAggelia,settoggleAggelia]=useState(false)
+    const handleStateChange = (value) => {
+        settoggleAggelia(value)
+    }
+
     const createClusterCustomIcon = function (cluster) {
         return L.divIcon({
           html: `<div style="background-color:#34d399;height:2.4rem;width:2.4rem;border-radius:50%;transform:translate(-25%,-25%);display:flex;justify-content:center;align-items:center;font-weight:200;font-size:2.0rem;color:black;font-family:Monospace;">${cluster.getChildCount()}</div>`,
@@ -94,7 +99,11 @@ export function Map () {
                     }
                 }>
                    
-                            <Popup autoPan={false}>
+                            <Popup  
+                                autoPan={false}
+                               
+                                
+                                >
                                
                                 <CarouselDemo >
                                 
@@ -108,8 +117,9 @@ export function Map () {
            )}
           </MarkerClusterGroup>
         </MapContainer>
-        {console.log('map'+toggleAggelia)}
-        {toggleAggelia && (<Aggelia toggle={toggleAggelia}  ></Aggelia>)}
+        {console.log(toggleAggelia)}
+        { toggleAggelia && (<Aggelia  
+        setToggleAggelia={settoggleAggelia}   ></Aggelia>)}
         
         
         

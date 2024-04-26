@@ -36,6 +36,7 @@
     "react-360": "^0.0.1",
     "react-360-cli": "^1.1.0",
     "react-360-web": "^1.1.0",
+    "react-custom-events": "^1.1.1",
     "react-dom": "^18.2.0",
     "react-geocode": "^1.0.0-alpha.1",
     "react-hook-form": "^7.51.2",

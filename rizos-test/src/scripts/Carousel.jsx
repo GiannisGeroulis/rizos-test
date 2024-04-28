@@ -8,9 +8,23 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { useState } from "react"
+import supabase from "./Login"
 
-
-export function CarouselDemo() {
+export function CarouselDemo(images) {
+  async function downloadImage(image)
+  {
+    console.log("patata" + image)
+    const { data, error } = await supabase
+      .storage
+      .from('asdf')
+      .download(image)
+  }
+  const [rimages,setRimages]=useState([]);
+  if(images.images===null) {return}
+  images.images.map(image => (
+   downloadImage(image.image))
+  )
   return (
     <Carousel opts={{
       
@@ -18,17 +32,7 @@ export function CarouselDemo() {
       dragGree:true
       }}className="w-full max-w-xs">
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index}>
-            <div className="p-0">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-4xl font-semibold">{index + 1}</span>
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
+        
       </CarouselContent>
       <CarouselPrevious />
       <CarouselNext />

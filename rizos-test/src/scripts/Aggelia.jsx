@@ -46,8 +46,8 @@ export function Aggelia(id,{setToggleAggelia},akinito){
 
   return (
   
-  <div className="z-[5000] bg-black   bg-opacity-40 fixed left-0 top-0  h-screen w-screen ">
-        <div className="z-[5000]  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
+  <div className="z-[5001] bg-black   bg-opacity-40 fixed left-0 top-0  h-screen w-screen  " >
+        <div className="z-[5001]  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
         <Card className="w-[350px]   ">
         <Button className="fixed right-0 bg-white text-black hover:bg-white" onClick={handleClick} ><MdOutlineCancel className="h-5 w-5"/></Button>
         

@@ -26,7 +26,7 @@ export function Map () {
     
     
    
-   
+    
     const [toggleAggelia,settoggleAggelia]=useState(false)
     const handleStateChange = (value) => {
         settoggleAggelia(value)
@@ -43,6 +43,8 @@ export function Map () {
    const [fetchError,setFetchError] = useState(null)
    const [akinita,setAkinita] = useState(null)
    const [rakinito,setRakinito] = useState(null)
+   const [rimagesURL,setRimagesURL]=useState(null)
+   
   
    useEffect(() => {
     const fetchAkinita = async () => {
@@ -71,6 +73,22 @@ export function Map () {
     
    }, [])
    const [id,setid] = useState(null)
+   async function setImagesURL(id)
+   {
+    const { data, error } = await supabase
+    
+        .storage
+        .from('asdf')
+        .list(id, {
+        limit: 10,
+        offset: 0,
+        })
+        
+        setRimagesURL(data)
+        
+   
+   }
+  
 
 
     return (
@@ -80,10 +98,12 @@ export function Map () {
             <TileLayer    
         
             url='https://tile.jawg.io/jawg-matrix/{z}/{x}/{y}{r}.png?access-token={accessToken}'
-            
+            //https://tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token={accessToken} alt
             accessToken='PSCZypC2UTOKN8ZJkSz7ubwLlEWDQG8RSFRa2W2jsXl0t8ugcQp4A5ZDZ1mYK2GF'
             className="filter hue-rotate-[8deg]"/>
             <MarkerClusterGroup showCoverageOnHover={false} chunkedLoading={true} removeOutsideVisibleBounds={true} animate={true} iconCreateFunction={createClusterCustomIcon}>
+           { toggleAggelia && (<Aggelia  
+                      setToggleAggelia={settoggleAggelia} akinito={rakinito} ></Aggelia>)}
            {akinita && (
                 akinita.map(akinito => (
                     
@@ -99,26 +119,20 @@ export function Map () {
                             settoggleAggelia(!toggleAggelia)
                             setid(akinito.id)
                             setRakinito(akinito)
+                            setImagesURL(akinito.id)
                             
                         }
                     }
                 }>
                   
-                    { toggleAggelia && (<Aggelia  
-                      setToggleAggelia={settoggleAggelia} akinito={rakinito} ></Aggelia>)}
+                    
                             <Popup  
                                 autoPan={false}
                                
                                 
                                 >
                                
-                                <CarouselDemo 
-                                      plugins={[
-                                        Autoplay({
-                                          delay: 2000,
-                                        }),
-                                      ]}
-                                >
+                                <CarouselDemo images={rimagesURL} >
                                 
                                 </CarouselDemo>
                             </Popup>

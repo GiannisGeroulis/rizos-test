@@ -17,8 +17,8 @@ import { DialogExit } from "./DIalogExit";
 
 
 
-
 export function NavBar() {
+    
     const [user,setUser]=useState(null)
     const [email,setEmail]=useState("")
     useEffect(() => {
@@ -42,7 +42,7 @@ export function NavBar() {
             
            
             
-            <Button variant="link" className="hover:text-emerald-600  text-black h-auto">ΑΝΑΘΕΣΗ</Button>
+            <Button variant="link" className="hover:text-emerald-600  text-black h-auto">ΑΝΕΒΑΣΜΑ</Button>
             <Button variant="link" className=" bg-gradient-to-tr from-slate-500 to-emerald-500  rounded-full center text-black font-semi-bold h-auto">ΣΥΝΔΕΣΗ</Button>
             <DropdownMenu >
             <DropdownMenuTrigger className=" ">

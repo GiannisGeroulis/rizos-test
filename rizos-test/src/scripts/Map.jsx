@@ -10,7 +10,8 @@ import { custom } from "zod";
 import { useNavigate } from "react-router-dom";
 import { data } from "autoprefixer";    
 import { Aggelia } from "./Aggelia";
-
+import Autoplay from "embla-carousel-autoplay"
+import { Gallery } from "react-grid-gallery";
 
 const customIcon = new Icon({
     iconUrl: require("../assets/marker-icon.png"),
@@ -41,6 +42,7 @@ export function Map () {
       };
    const [fetchError,setFetchError] = useState(null)
    const [akinita,setAkinita] = useState(null)
+   const [rakinito,setRakinito] = useState(null)
   
    useEffect(() => {
     const fetchAkinita = async () => {
@@ -68,6 +70,7 @@ export function Map () {
     fetchAkinita()
     
    }, [])
+   const [id,setid] = useState(null)
 
 
     return (
@@ -94,18 +97,28 @@ export function Map () {
                         click: (event) => {
                             
                             settoggleAggelia(!toggleAggelia)
+                            setid(akinito.id)
+                            setRakinito(akinito)
                             
                         }
                     }
                 }>
-                   
+                  
+                    { toggleAggelia && (<Aggelia  
+                      setToggleAggelia={settoggleAggelia} akinito={rakinito} ></Aggelia>)}
                             <Popup  
                                 autoPan={false}
                                
                                 
                                 >
                                
-                                <CarouselDemo >
+                                <CarouselDemo 
+                                      plugins={[
+                                        Autoplay({
+                                          delay: 2000,
+                                        }),
+                                      ]}
+                                >
                                 
                                 </CarouselDemo>
                             </Popup>
@@ -117,9 +130,7 @@ export function Map () {
            )}
           </MarkerClusterGroup>
         </MapContainer>
-        {console.log(toggleAggelia)}
-        { toggleAggelia && (<Aggelia  
-        setToggleAggelia={settoggleAggelia}   ></Aggelia>)}
+        
         
         
         

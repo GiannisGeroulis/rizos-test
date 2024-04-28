@@ -40,11 +40,15 @@ import {
     language: "en", // Default language for responses.
     region: "es", // Default region for responses.
   });  
-
-
+  import uuid from 'react-uuid';
+  import { decode } from 'base64-arraybuffer'
+  import {v4 as uuidv4} from 'uuid'
+  
 
 export function Dashboard() {
-    const testImage = require("../assets/google-png.png")
+
+    const [uploadFiles,setuploadFiles]=useState([]);
+    
     const [tipos,setTipos]=useState("");
     const [lat,setLat]=useState("");
     const [lng,setLng]=useState("");
@@ -56,7 +60,7 @@ export function Dashboard() {
     const [zoni,setZoni]=useState("");
     const [formError,setFormError]=useState(null);
     const [formData,setFormData] = React.useState({
-        emvadon:0,timi:0,etosK:0,etosAn:0,ipnodomatia:0,mpania:0,diefthinsi:''
+       id:uuid() , emvadon:0,timi:0,etosK:0,etosAn:0,ipnodomatia:0,mpania:0,diefthinsi:'',files:null
       })
       console.log(formData)
       function handleChange(event)
@@ -69,14 +73,16 @@ export function Dashboard() {
         })
       }
       
+  
       
       async function handleSubmit(e){
         e.preventDefault()
-        if(!tipos || !xwros || !eidos || !orofos || !katastasi || !energiaki || !zoni || !formData.emvadon || !formData.timi || !formData.etosK || !formData.etosAn|| !formData.ipnodomatia|| !formData.mpania|| !formData.diefthinsi){
+        if(!tipos || !xwros || !eidos || !orofos || !katastasi || !energiaki || !zoni || !formData.emvadon || !formData.timi || !formData.etosK || !formData.etosAn|| !formData.ipnodomatia|| !formData.mpania|| !formData.diefthinsi ){
             setFormError("Παρακαλώ συμπλήρωσε όλες τις φόρμες")
             console.log("pipes")
             return
         }
+        
         //console.log(tipos,xwros,eidos,orofos,katastasi,energiaki,zoni,formData.emvadon,formData.timi,formData.etosK,formData.etosAn,formData.ipnodomatia,formData.mpania,formData.diefthinsi)
         console.log("mpompa")
         fromAddress(formData.diefthinsi)
@@ -93,26 +99,58 @@ export function Dashboard() {
             console.log("oxi fani oxi")
             return
         }
+       
         
-        console.log(testImage)
-        console.log("nai")
         const { data, error } = await supabase
         .from('akinito')
         .insert([
-        { tipos: tipos , xwros: xwros ,eidos: eidos,orofos: orofos,katastasi: katastasi,energiaki: energiaki,zoni: zoni,emvadon: formData.emvadon,timi: formData.timi,etosK: formData.etosK,etosAn: formData.etosAn,ipnodomatia: formData.ipnodomatia,mpania: formData.mpania,diefthinsi: formData.diefthinsi,lng:lng,lat:lat },
+        {id: formData.id ,tipos: tipos , xwros: xwros ,eidos: eidos,orofos: orofos,katastasi: katastasi,energiaki: energiaki,zoni: zoni,emvadon: formData.emvadon,timi: formData.timi,etosK: formData.etosK,etosAn: formData.etosAn,ipnodomatia: formData.ipnodomatia,mpania: formData.mpania,diefthinsi: formData.diefthinsi,lng:lng,lat:lat },
         ])
         if(error){
             console.log("pipes2")
         }
         if (data) {
             console.log("mpompa2    ")
+            
         }
-        console.log(lng,lat)
+        fireImages()
+        
+        
+
       }
-    
-
-
-   
+      async function uploadImage(file) {
+        
+        
+        console.log(file + "skato")
+        const {data,error} = await supabase
+          .storage
+          .from('asdf')
+          .upload(formData.id + "/" + uuidv4(),file)
+          if(error)
+        {
+          console.log(error)
+        }else
+        {
+          console.log(data)
+        }
+      }
+      function uploadImageLocally(e) {
+        setuploadFiles(e.target.files)
+        
+        
+          
+        }
+        function fireImages () {
+          
+          for (let i = 0; i < uploadFiles.length; i++) {
+            const element =  uploadFiles[i];
+            console.log(element)
+            uploadImage(element)
+        }
+        
+      }
+      
+      
 
 
 
@@ -128,7 +166,7 @@ export function Dashboard() {
     return (
 
         <>
-        
+        {console.log(formData)}
         <div className="w-full h-full fixed top-0 left-0  bg-gradient-to-tr from-slate-800 to-emerald-800"> 
             <NavBar></NavBar>
             
@@ -273,7 +311,7 @@ export function Dashboard() {
                         
                         
                         <Label htmlFor="fotografies">Φωτογραφίες</Label>
-                        <Input type="file" multiple>
+                       <Input name="files" type="file" accept="image/png,image/jpg" onChange={(e)=>uploadImageLocally(e)} multiple>
                         </Input>
                         
 

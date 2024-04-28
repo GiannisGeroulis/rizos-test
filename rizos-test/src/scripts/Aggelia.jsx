@@ -25,30 +25,21 @@ import { createClient } from '@supabase/supabase-js';
 import { useNavigate } from "react-router-dom"
 import { Auth } from "@supabase/auth-ui-react"
 import { ThemeSupa } from "@supabase/auth-ui-shared"
-
-
-
-
-const supabase = createClient(
-  "https://wlpscyjcpzpcejlwatvp.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndscHNjeWpjcHpwY2VqbHdhdHZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIwOTEwODgsImV4cCI6MjAyNzY2NzA4OH0.RBWV8mB_tyw8Zx0DVkJTCbi4NOQOZRF78aKbGq77xfU"
-);
-export default supabase
+import { Gallery } from "react-grid-gallery";
+import supabase from "./Login"
+import { useEffect , useState} from "react"
 
 
 
 
 
-
-export function Aggelia({setToggleAggelia}){
-
-  
+export function Aggelia(id,{setToggleAggelia},akinito){
   
    const [session,setSession]=React.useState(null)
   const navigate = useNavigate();
   
  const handleClick = () => {
-  setToggleAggelia(false)
+  id.setToggleAggelia(false)
  }
 
 
@@ -66,7 +57,9 @@ export function Aggelia({setToggleAggelia}){
         </CardHeader>
        
         <CardContent >
-        
+          
+          <h1>{id.akinito.id}</h1>
+        <Gallery/>
    
         </CardContent>
         

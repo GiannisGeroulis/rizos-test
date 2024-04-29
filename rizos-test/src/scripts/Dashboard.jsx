@@ -43,12 +43,13 @@ import {
   import uuid from 'react-uuid';
   import { decode } from 'base64-arraybuffer'
   import {v4 as uuidv4} from 'uuid'
+  import { useNavigate } from "react-router-dom"
   
 
 export function Dashboard() {
-
+    const navigate = useNavigate();
     const [uploadFiles,setuploadFiles]=useState([]);
-    
+    const [id,setId]=useState(null);
     const [tipos,setTipos]=useState("");
     const [lat,setLat]=useState("");
     const [lng,setLng]=useState("");
@@ -114,7 +115,7 @@ export function Dashboard() {
             
         }
         fireImages()
-        
+        navigate("/home")
         
 
       }

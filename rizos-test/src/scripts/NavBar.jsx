@@ -14,23 +14,29 @@ import supabase from "./Login";
 import { DialogDemo } from "./DialogLogarismos";
 import { useEffect, useState } from "react";
 import { DialogExit } from "./DIalogExit";
-
+import { useNavigate } from "react-router-dom";
 
 
 export function NavBar() {
-    
+    const navigate = useNavigate();
     const [user,setUser]=useState(null)
     const [email,setEmail]=useState("")
     useEffect(() => {
         //Runs only on the first render
         async function getUser () {
             const { data: { user } } = await supabase.auth.getUser()
+            if(user===null)
+            {
+                navigate("/")
+            }
             setEmail(user)
             
         }
         getUser()
         
       }, []);
+
+    
       
 
 

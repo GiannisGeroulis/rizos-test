@@ -44,6 +44,7 @@ export function Map () {
    const [akinita,setAkinita] = useState(null)
    const [rakinito,setRakinito] = useState(null)
    const [rimagesURL,setRimagesURL]=useState(null)
+   const [rimages,setRimages]=useState(null)
    
   
    useEffect(() => {
@@ -88,8 +89,22 @@ export function Map () {
         
    
    }
-  
+   async function setImage(imageURL)
+   {
+    
+    const { data, error } = await supabase
+        .storage
+        .from('asdf')
+        .download({id}+"/"+{imageURL})
 
+   }
+   function setImages()
+   {
+    rimagesURL.map(rimage => (
+        setImage(rimage)
+    ))
+   }
+  
 
     return (
         <>
@@ -124,6 +139,7 @@ export function Map () {
                         }
                     }
                 }>
+                    
                   
                     
                             <Popup  

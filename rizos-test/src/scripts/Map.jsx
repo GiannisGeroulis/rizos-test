@@ -24,9 +24,9 @@ const customIcon = new Icon({
 
 export function Map () {
     
-    
-   
-    
+    const [images,setImages]=useState([])
+    const [imagesURL,setImagesURL]=useState([])
+    const [ids,setIds]=useState([]) 
     const [toggleAggelia,settoggleAggelia]=useState(false)
     const handleStateChange = (value) => {
         settoggleAggelia(value)
@@ -43,13 +43,10 @@ export function Map () {
    const [fetchError,setFetchError] = useState(null)
    const [akinita,setAkinita] = useState(null)
    const [rakinito,setRakinito] = useState(null)
-   const [rimagesURL,setRimagesURL]=useState(null)
-   const [rimages,setRimages]=useState(null)
-   
-  
+ 
    useEffect(() => {
     const fetchAkinita = async () => {
-        
+    
     let { data , error } = await supabase
         .from('akinito')
         .select('*')
@@ -70,50 +67,73 @@ export function Map () {
                 console.log("lmao")
             }
     }
+   
+
+   
+    
     fetchAkinita()
     
+
+    
    }, [])
-   const [id,setid] = useState(null)
-   async function setImagesURL(id)
+   async function listImagesURL(id)
    {
-    const { data, error } = await supabase
-    
-        .storage
-        .from('asdf')
-        .list(id, {
-        limit: 10,
-        offset: 0,
-        })
         
-        setRimagesURL(data)
-        
-   
-   }
-   async function setImage(imageURL)
-   {
-    
-    const { data, error } = await supabase
-        .storage
-        .from('asdf')
-        .download({id}+"/"+{imageURL})
+       if(imagesURL.length<ids.length)
+       {
+       
+       const {data,error} = await supabase
+           .storage
+           .from("asdf")
+           .list(id);
+       imagesURL.push(data)
+       }
+      
+       
 
    }
-   function setImages()
+   async function downloadImages(url)
    {
-    rimagesURL.map(rimage => (
-        setImage(rimage)
+    const {data,error} = await supabase
+        .storage
+        .from("asdf")
+        .download()
+   }
+useEffect(() => {
+    if((akinita!==null) && ids.length<akinita.length)
+    {
+    akinita.map(akinito => (
+        ids.push(akinito.id)
+    ))}
+    else{
+    ids.map(id => (
+        
+        listImagesURL(id)
+        
     ))
-   }
-  
+    }
+    
+    imagesURL.map(urls => (
+        urls.map(url =>(
+            downloadImages(url)
+        ))
+    ))
+    
+})
 
-    return (
+
+
+   const [id,setid] = useState(null)
+   
+
+    return ( 
         <>
         
         <MapContainer  zoomControl={false} attributionControl={false} center={[38.046760019263566, 23.806316278589556]} zoom={14} className="w-full h-full fixed left-0 top-0 z-0 filter ">
             <TileLayer    
         
             url='https://tile.jawg.io/jawg-matrix/{z}/{x}/{y}{r}.png?access-token={accessToken}'
-            //https://tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token={accessToken} alt
+          //  url="https://tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token={accessToken}"
             accessToken='PSCZypC2UTOKN8ZJkSz7ubwLlEWDQG8RSFRa2W2jsXl0t8ugcQp4A5ZDZ1mYK2GF'
             className="filter hue-rotate-[8deg]"/>
             <MarkerClusterGroup showCoverageOnHover={false} chunkedLoading={true} removeOutsideVisibleBounds={true} animate={true} iconCreateFunction={createClusterCustomIcon}>
@@ -134,13 +154,17 @@ export function Map () {
                             settoggleAggelia(!toggleAggelia)
                             setid(akinito.id)
                             setRakinito(akinito)
-                            setImagesURL(akinito.id)
                             
+
                         }
                     }
                 }>
                     
-                  
+               {console.log(imagesURL)}
+                
+         
+                    
+                 
                     
                             <Popup  
                                 autoPan={false}
@@ -148,7 +172,7 @@ export function Map () {
                                 
                                 >
                                
-                                <CarouselDemo images={rimagesURL} >
+                                <CarouselDemo  >
                                 
                                 </CarouselDemo>
                             </Popup>

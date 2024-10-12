@@ -27,7 +27,7 @@ import {
     setKey,
     setDefaults,
     setLanguage,
-    setRegion,
+    setRegion,  
     fromAddress,
     fromLatLng,
     fromPlaceId,
@@ -168,12 +168,12 @@ export function Dashboard() {
 
         <>
         {console.log(formData)}
-        <div className="w-full h-full fixed top-0 left-0  bg-gradient-to-tr from-slate-800 to-emerald-800"> 
+        <div className="w-full h-full fixed top-0 left-0  bg-gradient-to-tr from-slate-800 to-[#FFE44A]"> 
             <NavBar></NavBar>
             
-            <div className=" left-0 fixed top-0 h-full w-full  bg-white/20 overflow-y-auto"> 
+            <div className=" left-0 fixed top-0 h-full w-full   overflow-y-auto"> 
             
-                <Card className=" mt-24 mx-auto  w-4/5 lg:w-2/3 rounded-2xl mb-4 ">
+                <Card className=" mt-24 mx-auto  border-2 border-slate-200 w-4/5 lg:w-2/3 rounded-2xl mb-4 ">
                 <CardHeader>
                     <CardTitle>Δημιουργία αγγελίας</CardTitle>
                     <CardDescription>Ανέβασε την αγγελία σου γρήγορα και αποτελεσματικά.</CardDescription>
@@ -302,10 +302,15 @@ export function Dashboard() {
                             </SelectContent>
                         </Select>
                         <Label htmlFor="diefthinsi">Διεύθυνση Ακινήτου</Label>
-                        <Input name="diefthinsi" placeholder="π.χ. Κανάρη 8" onChange={handleChange}>
+                        <div >
+                        <Input  name="diefthinsi" placeholder="π.χ. Κανάρη 8" onChange={handleChange}>
                         </Input>
+                        
+                        </div >
+                        
+                        
                         <div>
-                            <DashboardMap >
+                            <DashboardMap lat={lat} lng={lng}>
                                 
                             </DashboardMap>
                         </div>
@@ -325,7 +330,7 @@ export function Dashboard() {
                 
                 <CardFooter className="flex  justify-between">
                     <Button variant="outline" >Ακύρωση</Button>
-                    <Button variant="link" className="bg-emerald-600 hover:font-semibold" onClick={handleSubmit}>Επόμενο</Button>
+                    <Button variant="link" className="bg-[#d7d638] hover:font-semibold" onClick={handleSubmit}>Επόμενο</Button>
                 </CardFooter>
                 </Card>
                 

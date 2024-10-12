@@ -29,37 +29,38 @@ import { Gallery } from "react-grid-gallery";
 import supabase from "./Login"
 import { useEffect , useState} from "react"
 import { ImageGallery } from "react-image-grid-gallery";
+import { CarouselDemo } from "./CarouselAG"
 
 
 
 
 
-export function Aggelia(id,{setToggleAggelia},akinito,images,rlength){
+export function Aggelia(id){
   const [rimages]=useState([])
    const [session,setSession]=React.useState(null)
   const navigate = useNavigate();
   
  const handleClick = () => {
   id.setToggleAggelia(false)
+  id.map.doubleClickZoom.enable();
+  id.map.dragging.enable();
+  id.map.scrollWheelZoom.enable();
+  id.map.keyboard.enable();
  }
  
 
 
 
+
   return (
   
-  <div className="z-[5001] bg-black   bg-opacity-40 fixed left-0 top-0  h-screen w-screen  " >
-        <div className="z-[5001]  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
-        <Card className="w-[1350px] h-[750px]  ">
-        <Button className="fixed right-0 bg-white text-black hover:bg-white" onClick={handleClick} ><MdOutlineCancel className="h-5 w-5"/></Button>
+        <div className="z-[5001]  bg-black bg-opacity-40   fixed  h-screen w-screen  ">
+         
+        <Card className="w-[95%]  h-[85%] mx-auto top-20   bg-white   relative     ">
+        <Button className=" bg-white w-[3%]   p-0 absolute right-0 text-black hover:bg-white  " onClick={handleClick} ><MdOutlineCancel className="h-5 w-5"/></Button>
         
-        <CardHeader className="">
-            <CardTitle className="font-bold">Σύνδεση</CardTitle>
-            <CardDescription className=" text-slate-800 font-semibold">Σύνδεση με το λογαριασμό σας ή εγγραφή</CardDescription>
-            
-        </CardHeader>
+        <CardContent className=" bg-blue-300 w-full h-fit "  >
         
-        <CardContent >
          {
           
          id.images.map(image => {
@@ -68,22 +69,25 @@ export function Aggelia(id,{setToggleAggelia},akinito,images,rlength){
          {
           
 
+
           
           rimages.push(image.image)}
           
          })}
          {console.log(rimages)}
+
           <h1>{id.akinito.id}</h1>
+          <div className=" bg-red-400 h-full w-full  ">
           
-          <Gallery enableImageSelection={false} images={rimages} className="w-auto h-auto"></Gallery>
-          
-   
+          <CarouselDemo images={rimages}></CarouselDemo>
+          </div>          
+         
         </CardContent>
         
       
         </Card>
         </div>
-    </div>)
+  )
     
   
 }

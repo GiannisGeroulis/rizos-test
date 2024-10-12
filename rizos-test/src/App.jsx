@@ -12,6 +12,7 @@ import { useState } from 'react';
 function App() {
   
   const [token, setToken] = useState(false)
+  const [map,setMap] = useState(null)
 
   return (
     <>
@@ -25,8 +26,8 @@ function App() {
           }/>
           <Route path='/home' element={
           <div>
-            <NavBar ></NavBar>
-            <Map></Map>
+            <NavBar map={map} ></NavBar>
+            <Map setMap={setMap} map={map}></Map>
             
           </div>
         }/>

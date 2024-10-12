@@ -1,11 +1,11 @@
-import { MapContainer , Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer , Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Button } from "@/components/ui/button";
 import { CarouselDemo } from "./Carousel";
-import { Icon,divIcon } from "leaflet";
+import { Icon,divIcon, marker } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import supabase, { Login } from "./Login";
-import { useState ,useEffect } from "react";
+import { useState ,useEffect, useRef } from "react";
 import { custom } from "zod";
 import { useNavigate } from "react-router-dom";
 import { data } from "autoprefixer";    
@@ -18,11 +18,8 @@ const customIcon = new Icon({
     iconSize: [40,40],
     
 
-  })
-
-
-
-export function Map () {
+  })   
+ export function Map ({setMap},refMap) {
     const [dimensions,setDimensions]=useState(null)
     const [rlength,setRlength]=useState(null)
     const [rimagesURL,setRimagesURL]=([])
@@ -41,7 +38,7 @@ export function Map () {
     };
     const createClusterCustomIcon = function (cluster) {
         return L.divIcon({
-          html: `<div style="background-color:#34d399;height:2.4rem;width:2.4rem;border-radius:50%;transform:translate(-25%,-25%);display:flex;justify-content:center;align-items:center;font-weight:200;font-size:2.0rem;color:black;font-family:Monospace;">${cluster.getChildCount()}</div>`,
+          html: `<div style="background-color:#FFE44A;height:2.4rem;width:2.4rem;border-radius:50%;transform:translate(-25%,-25%);display:flex;justify-content:center;align-items:center;font-weight:200;font-size:2.0rem;color:#1C1C1C;font-family:Monospace;">${cluster.getChildCount()}</div>`,
           // customMarker is the class name in the styles.css file
           className: "customMarker",
           iconSize: L.point(30, 30, true)
@@ -132,7 +129,7 @@ export function Map () {
    }
    async function downloadImages(url,id)
    {
-    const {data,error} = await supabase
+    const {data,error} =  supabase
         .storage
         .from("asdf")
         .getPublicUrl(id + "/" + url
@@ -176,21 +173,21 @@ useEffect(() => {
     
 })
 
-
-
+   
+   const [mapRef,setmapRef]=useState(null)
+   const [markerLatLng,setmarkerLatLng]=useState(null)
    const [id,setid] = useState(null)
    
-
     return ( 
         <>
         
-        <MapContainer  zoomControl={false} attributionControl={false} center={[38.046760019263566, 23.806316278589556]} zoom={14} className="w-full h-full fixed left-0 top-0 z-0 filter ">
+        <MapContainer   ref={setmapRef} whenCreated={setMap(mapRef)}  zoomControl={false} attributionControl={false} center={[38.046760019263566, 23.806316278589556]} zoom={14} className="w-full h-full fixed left-0 top-0 z-0 filter ">
             <TileLayer    
         
            // url='https://tile.jawg.io/jawg-matrix/{z}/{x}/{y}{r}.png?access-token={accessToken}'
-           url="https://tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token={accessToken}"
+           url="https://tile.jawg.io/jawg-sunny/{z}/{x}/{   y}{r}.png?access-token={accessToken}"
             accessToken='PSCZypC2UTOKN8ZJkSz7ubwLlEWDQG8RSFRa2W2jsXl0t8ugcQp4A5ZDZ1mYK2GF'
-            className="filter hue-rotate-[8deg]"/>
+            className="filter hue-rotate-[8deg] "/>
             <MarkerClusterGroup showCoverageOnHover={false} chunkedLoading={true} removeOutsideVisibleBounds={true} animate={true} iconCreateFunction={createClusterCustomIcon}>
            
            {akinita && (
@@ -201,9 +198,17 @@ useEffect(() => {
                     position={[akinito.lat, akinito.lng]} 
                     icon={customIcon}
                     eventHandlers={{
-                        mouseover: (event) => event.target.openPopup(),
+                        mouseover: (event) => {
+                            event.target.openPopup()                    
+                            
+                        },  
                         mouseout: (event) => event.target.closePopup(),
                         click: (event) => {
+
+                            mapRef.doubleClickZoom.disable();
+                            mapRef.dragging.disable();
+                            mapRef.scrollWheelZoom.disable();
+                            mapRef.keyboard.disable();
                             images.length=0
                             settoggleAggelia(!toggleAggelia)
                             setid(akinito.id)
@@ -221,13 +226,9 @@ useEffect(() => {
           
                 
              
-                            <Popup  
-                                autoPan={false}
-                               
-                                
-                                >
-                               
-                               
+                            <Popup closeButton={false} autopan={false} className="" > 
+                            <CarouselDemo  images={images}></CarouselDemo>
+                            
                             </Popup>
                     </Marker>
                     
@@ -237,7 +238,7 @@ useEffect(() => {
            )}
            
            { toggleAggelia && (<Aggelia  
-                      setToggleAggelia={settoggleAggelia} akinito={rakinito} images={images} rlength={rlength} >
+                      setToggleAggelia={settoggleAggelia} akinito={rakinito} images={images} rlength={rlength} map={mapRef} >
                         
                       </Aggelia>)}
           </MarkerClusterGroup>
